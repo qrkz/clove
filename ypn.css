@@ -1,0 +1,81 @@
+*{
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+}
+body{
+    background: black;
+    font-family: 'Ubuntu Mono', 'Courier New', Courier, monospace;
+}
+main{
+    color: #ddd;
+}
+.noScroll{
+    overflow-y: hidden;
+}
+nav#ypnFooter{
+    position: fixed;bottom: 0; left: 0; right: 0;
+    background: burlywood; color: #ddd;
+    display: flex; flex-direction: row;
+    align-items: center; justify-content: center;
+    height: 8vh; min-width: 16vh; width: auto;
+}
+nav#ypnFooter > div{
+    font-weight: bold;
+    display: flex; height: 100%; width: 16vh; min-width: 120px;
+    align-items: center; justify-content: center;
+    font-family: 'Share Tech', 'Segoe UI', 'Montserrat', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+}
+nav#ypnFooter > div:hover{
+    background: burlywood;
+    flex-grow: 0;
+}
+nav#ypnFooter > div:nth-child(2){
+    flex-grow: 1;
+    letter-spacing: 0.3rem;
+}
+#ypnHome{
+    font-family: 'Share Tech', 'Segoe UI', 'Montserrat', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    height: 92vh;
+}
+#ypnClock{
+    letter-spacing: normal;
+}
+#ypnHome > *{
+    margin: 1rem;
+    font-size: calc(8vmin + 10pt);
+}
+#ypnWelcome{
+    text-align: center;
+}
+#ypnWelcome span{
+    font-size: calc(3vmin + 5pt);
+}
+#ypnScroll{
+    font-size: medium;
+}
+nav#ypnMenuOverlay{
+    position: fixed;
+    height: 200vh;
+    top: 92vh; left: 0; right: 0;
+    width: auto;
+    z-index:9999;
+    background: rgba(255, 0, 0, 0);
+}
+nav#ypnFooter{
+    position: fixed;bottom: 0; left: 0; right: 0;
+    height: 8vh; min-width: 16vh; width: auto;
+    background: burlywood; color: #ddd;
+    display: flex; flex-direction: row;
+    align-items: center; justify-content: center;
+    z-index: 8888;
+}
+nav#ypnMenu{
+    position: fixed;
+    height: 92vh;
+    top: 92vh; left: 0; right: 0;
+    width: auto;
+    z-index:7777;
+    background: rgba(255, 0, 0, 0.5);
+}

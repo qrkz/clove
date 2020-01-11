@@ -73,10 +73,16 @@ nav#ypnFooter{
 }
 nav#ypnMenu{
     position: fixed;
-    height: 92vh;
+    height: 192vh;
     top: 92vh; left: 0; right: 0;
     width: auto;
     z-index:7777;
+    background: burlywood;
+}
+nav#ypnMenu > #ypnMenuCont{
+    top: 0; left: 0; right: 0;
+    width: auto;
+    height: 192vh;
     background: burlywood;
     overflow-y: scroll;
 }

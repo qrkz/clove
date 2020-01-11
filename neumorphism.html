@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>neumorphism</title>
+    <style>
+    html, body{
+        margin:0; padding:0;
+        background: #CF0;
+        display: flex;
+        flex-direction: column;
+        align-items: center; justify-content: center;
+        height: 100vh; width: 100vw;
+    }
+    .neuCont{
+        position: relative;
+        z-index: 5;
+    }
+    .neu{
+        background: #CF0;
+        display: flex;
+        width:50vmin; height: 50vmin;
+        border-radius: 5%;
+        flex-direction: column;
+        align-items: center; justify-content: center;
+        box-shadow: 12px 12px 0px 0px rgba(0, 0, 0, 0.5),-12px -12px 0px 0px rgba(255, 255, 255, 0.5);
+    }
+    .neu::after{
+        content: "";
+        width: 10%;
+        height: 10%;
+        border-radius: 50%;
+        background-color: #cf0;
+        /* create a new stacking context */
+        position: absolute;
+        top:0;right:0;
+        z-index: -1;
+        box-shadow: 0px 0px 10px 15px rgba(255, 255, 255, 0.7);
+    }
+    .neu::before{
+        content: "";
+        width: 10%;
+        height: 10%;
+        border-radius: 50%;
+        background-color: #cf0;
+        /* create a new stacking context */
+        position: absolute;
+        bottom:0;left:0;
+        z-index: -1;
+        box-shadow: 0px 0px 10px 15px rgba(104, 155, 0, 1);
+    }
+    </style>
+</head>
+<body>
+    <div class="neuCont">
+        <div class="neu">
+            Hello
+        </div>
+    </div>
+</body>
+</html>

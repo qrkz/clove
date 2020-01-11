@@ -78,4 +78,5 @@ nav#ypnMenu{
     width: auto;
     z-index:7777;
     background: burlywood;
+    overflow-y: scroll;
 }

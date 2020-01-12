@@ -1,11 +1,11 @@
 $(function () {
-
+    ypnFull();
     setInterval('updateClock()', 1000);
 
-    var $draggable = $('#ypnMenuOverlay').draggabilly({
+    var $draggable = $('#ypnMenu').draggabilly({
         axis:'y'
     });
-    var draggie = $('#ypnMenuOverlay').data('draggabilly');
+    var draggie = $('#ypnMenu').data('draggabilly');
 
     var vpH = Math.round( window.innerHeight );
     var dragFlag = 0;
@@ -20,11 +20,9 @@ $(function () {
         navPos = vpH - navH;
         if(dragFlag === 0){
             $draggable.draggabilly('setPosition', 0, navPos);
-            $("#ypnMenu").css("top",navPos);
         }
         else if(dragFlag === 1){
             $draggable.draggabilly('setPosition', 0, 0);
-            $("#ypnMenu").css("top",0);
         }
     });
 
@@ -34,14 +32,13 @@ $(function () {
         if (dragFlag === 0) {
             if (dragPosY > dragLL) {
                 $draggable.draggabilly('setPosition', 0, navPos);
-                $("#ypnMenu").css("top",navPos);
                 dragFlag = 0;
                 $("html").removeClass("noScroll");
                 $("body").removeClass("noScroll");
+                $("#ypnFooter").css({"box-shadow":"burlywood 0 0 0"});
             }
             if (dragPosY < dragLL) {
                 $draggable.draggabilly('setPosition', 0, 0);
-                $("#ypnMenu").css("top",0);
                 dragFlag = 1;
                 $("html").addClass("noScroll");
                 $("body").addClass("noScroll");
@@ -50,14 +47,13 @@ $(function () {
         } else if (dragFlag === 1) {
             if (dragPosY > dragUL) {
                 $draggable.draggabilly('setPosition', 0, navPos);
-                $("#ypnMenu").css("top",navPos);
                 dragFlag = 0;
                 $("html").removeClass("noScroll");
                 $("body").removeClass("noScroll");
+                $("#ypnFooter").css({"box-shadow":"burlywood 0 0 0"});
             }
             if (dragPosY < dragUL) {
                 $draggable.draggabilly('setPosition', 0, 0);
-                $("#ypnMenu").css("top",0);
                 dragFlag = 1;
                 $("html").addClass("noScroll");
                 $("body").addClass("noScroll");
@@ -66,31 +62,30 @@ $(function () {
     });
     $draggable.on( 'dragMove', function( event, pointer ) {
         var dragPosY = Math.round(draggie.position.y);
-        $("#ypnMenu").css("top",dragPosY);
         if(dragFlag === 0)
         {
             if(dragPosY>dragLL){
-                $("#ypnFooter").css({"box-shadow":"inset #cf0 0 2px"});
-                $("#ypnFooter").css({"box-shadow":"#cf0 0 2px 15px"});
+                $("#ypnFooter").css({"box-shadow":"inset burlywood 0 2px"});
+                $("#ypnFooter").css({"box-shadow":"burlywood 0 0 25px"});
             }
             if(dragPosY<dragLL){
                 $("#ypnFooter").css({"box-shadow":"inset #0ff 0 2px"});
-                $("#ypnFooter").css({"box-shadow":"#0ff 0 2px 35px"});
+                $("#ypnFooter").css({"box-shadow":"#cf0 0 0 55px"});
             }
         }
         else if(dragFlag === 1)
         {
             if(dragPosY>dragUL){
-                $("#ypnFooter").css({"box-shadow":"inset #cf0 0 2px"});
-                $("#ypnFooter").css({"box-shadow":"#cf0 0 2px 15px"});
+                $("#ypnFooter").css({"box-shadow":"inset burlywood 0 2px"});
+                $("#ypnFooter").css({"box-shadow":"burlywood 0 0 25px"});
             }
             if(dragPosY<dragUL){
                 $("#ypnFooter").css({"box-shadow":"inset #0ff 0 2px"});
-                $("#ypnFooter").css({"box-shadow":"#0ff 0 2px 45px"});
+                $("#ypnFooter").css({"box-shadow":"#cf0 0 0 55px"});
             }
         }
     });
-    
+
 });
 
 function updateClock() {
@@ -106,4 +101,15 @@ function updateClock() {
     var weekDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     var currentTimeString = " // " + weekDay[currentDay] + " " + currentHours + ":" + currentMinutes/* + " " + timeOfDay*/;
     $("#ypnClock").html(currentTimeString);
+}
+
+function ypnFull(){
+    var fullscreen = false;
+    $("#ypnFull").click(function(){
+        if (fullscreen)
+            document.webkitExitFullscreen();
+        else
+            document.documentElement.webkitRequestFullscreen();
+        fullscreen = !fullscreen;
+    });
 }

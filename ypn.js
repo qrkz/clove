@@ -3,7 +3,7 @@ $(function () {
     setInterval('updateClock()', 1000);
 
     var $draggable = $('#ypnMenuOverlay').draggabilly({
-        axis:'y',
+        axis:'y'
     });
     var draggie = $('#ypnMenuOverlay').data('draggabilly');
 
@@ -18,7 +18,14 @@ $(function () {
         vpH = Math.round( window.innerHeight );
         navH = Math.round( $("#ypnFooter").outerHeight() );
         navPos = vpH - navH;
-        $draggable.draggabilly('setPosition', 0, navPos);
+        if(dragFlag === 0){
+            $draggable.draggabilly('setPosition', 0, navPos);
+            $("#ypnMenu").css("top",navPos);
+        }
+        else if(dragFlag === 1){
+            $draggable.draggabilly('setPosition', 0, 0);
+            $("#ypnMenu").css("top",0);
+        }
     });
 
     $draggable.on('dragEnd', function (event, pointer) {
@@ -60,7 +67,6 @@ $(function () {
     $draggable.on( 'dragMove', function( event, pointer ) {
         var dragPosY = Math.round(draggie.position.y);
         $("#ypnMenu").css("top",dragPosY);
-
         if(dragFlag === 0)
         {
             if(dragPosY>dragLL){
@@ -97,9 +103,7 @@ function updateClock() {
     currentHours = (currentHours > 12) ? currentHours - 12 : currentHours;
     // Convert an hours component of "0" to "12"
     currentHours = (currentHours == 0) ? 12 : currentHours;*/
-
     var weekDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     var currentTimeString = " // " + weekDay[currentDay] + " " + currentHours + ":" + currentMinutes/* + " " + timeOfDay*/;
-
     $("#ypnClock").html(currentTimeString);
 }

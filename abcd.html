@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .panel{
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 100%;
+            margin-top: 5%;
+        }
+        .imgCont{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+        }
+        img{
+            width: auto;
+            margin: 0 5% 5% 5%;
+        }
+        .infoCont{
+            margin: 0 5%;
+            position: sticky;
+            top: 0; right: 0;
+            height: fit-content;
+        }
+    </style>
+</head>
+<body id="twoCol">
+    <div id="Panel1" class="panel">
+        <div class="imgCont">
+            <img src="https://picsum.photos/200/300?random=1" alt="Img0101"/>
+            <img src="https://picsum.photos/200/300?random=2" alt="Img0102"/>
+            <img src="https://picsum.photos/200/300?random=3" alt="Img0103"/>
+            <img src="https://picsum.photos/200/300?random=4" alt="Img0104"/>
+        </div>
+        <div class="infoCont">
+            <h2>Panel 01:</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt dolor maiores deserunt porro optio, quis quasi cumque ad facilis, illo nobis vel nihil voluptates iure ab? Adipisci pariatur quasi at?</p>
+            <p>Laudantium itaque expedita labore sequi tenetur quisquam magnam libero doloremque illum sint ab, soluta corporis quas vel id omnis veritatis, perferendis dolores reprehenderit blanditiis? Eligendi cum omnis veniam modi voluptatum?</p>
+        </div>
+    </div>
+    <div id="Panel2" class="panel">
+        <div class="imgCont">
+            <img src="https://picsum.photos/200/300?random=5" alt="Img0201"/>
+            <img src="https://picsum.photos/200/300?random=6" alt="Img0202"/>
+            <img src="https://picsum.photos/200/300?random=7" alt="Img0203"/>
+            <img src="https://picsum.photos/200/300?random=8" alt="Img0204"/>
+        </div>
+        <div class="infoCont">
+            <h2>Panel 02:</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt dolor maiores deserunt porro optio, quis quasi cumque ad facilis, illo nobis vel nihil voluptates iure ab? Adipisci pariatur quasi at?</p>
+            <p>Laudantium itaque expedita labore sequi tenetur quisquam magnam libero doloremque illum sint ab, soluta corporis quas vel id omnis veritatis, perferendis dolores reprehenderit blanditiis? Eligendi cum omnis veniam modi voluptatum?</p>
+        </div>
+    </div>
+    
+</body>
+</html>

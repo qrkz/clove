@@ -1,4 +1,4 @@
-$(function () {
+/* $(function () {
     ypnFull();
     setInterval('updateClock()', 1000);
 
@@ -40,9 +40,12 @@ $(function () {
             if (dragPosY < dragLL) {
                 $draggable.draggabilly('setPosition', 0, 0);
                 dragFlag = 1;
+
+                $draggable.draggabilly('disable');
+                $("#ypnMenuCont").scrollTop( $("#ypnMenuCont > span").outerHeight() );
                 $("html").addClass("noScroll");
                 $("body").addClass("noScroll");
-                
+
             }
         } else if (dragFlag === 1) {
             if (dragPosY > dragUL) {
@@ -60,33 +63,135 @@ $(function () {
             }
         }
     });
-    $draggable.on( 'dragMove', function( event, pointer ) {
+    $draggable.on( 'pointerMove', function( event, pointer, moveVector ) {
         var dragPosY = Math.round(draggie.position.y);
+
         if(dragFlag === 0)
         {
             if(dragPosY>dragLL){
-                $("#ypnFooter").css({"box-shadow":"inset burlywood 0 2px"});
+                $("#ypnFooter > div").css({"box-shadow":"inset burlywood 0 2px"});
                 $("#ypnFooter").css({"box-shadow":"burlywood 0 0 25px"});
             }
             if(dragPosY<dragLL){
-                $("#ypnFooter").css({"box-shadow":"inset #0ff 0 2px"});
-                $("#ypnFooter").css({"box-shadow":"#cf0 0 0 55px"});
+                $("#ypnFooter > div").css({"box-shadow":"inset #ddd 0 2px"});
+                $("#ypnFooter").css({"box-shadow":"#ddd 0 0 55px"});
             }
         }
         else if(dragFlag === 1)
         {
+            console.log($("#ypnMenuCont").scrollTop());
+            if(moveVector.y < 0 && $("#ypnMenuCont").scrollTop() === 0){
+                $draggable.draggabilly('disable');
+                console.log('Disabled: '+$("#ypnMenuCont").scrollTop());
+            }
+            if(moveVector.y > 0 && $("#ypnMenuCont").scrollTop() === 0){
+                $draggable.draggabilly('enable');
+                $("#ypnMenuCont").removeClass("scroll");
+                $("#ypnMenuCont").addClass("noScroll");
+            }
             if(dragPosY>dragUL){
-                $("#ypnFooter").css({"box-shadow":"inset burlywood 0 2px"});
+                $("#ypnFooter > div").css({"box-shadow":"inset burlywood 0 2px"});
                 $("#ypnFooter").css({"box-shadow":"burlywood 0 0 25px"});
             }
             if(dragPosY<dragUL){
-                $("#ypnFooter").css({"box-shadow":"inset #0ff 0 2px"});
-                $("#ypnFooter").css({"box-shadow":"#cf0 0 0 55px"});
+                $("#ypnFooter > div").css({"box-shadow":"inset burlywood 0 2px"});
+                $("#ypnFooter").css({"box-shadow":"#ddd 0 0 55px"});
             }
         }
     });
 
-});
+});*/
+// external js: draggabilly.pkgd.js
+$(document).ready(function() {
+
+    ypnFull();
+    setInterval('updateClock()', 1000);
+
+    var $draggable = $(".draggable").draggabilly({ axis: "y" });
+    var draggie = $(".draggable").data("draggabilly");
+    var UL = $(window).innerHeight() * 0.2;
+    var LL = $(window).innerHeight() * 0.8;
+    var dragFlag = 0;
+    var EnableFlag = 1;
+    console.log("1", dragFlag, ", ", EnableFlag);
+
+    $draggable.on("pointerMove", function(event, pointer, moveVector) {
+      if (dragFlag === 0 && draggie.position.y < LL) {
+        $(".draggable").css(
+          "box-shadow",
+          "inset red 2px 2px,inset red -2px -2px"
+        );
+        console.log("2", dragFlag, ", ", EnableFlag);
+      }
+      if (dragFlag === 1 && draggie.position.y > UL) {
+        $(".draggable").css(
+          "box-shadow",
+          "inset green 2px 2px,inset green -2px -2px"
+        );
+        console.log("3", dragFlag, ", ", EnableFlag);
+      }
+      if($("#ypnMenuCont").scrollTop()===0 && EnableFlag===0 && moveVector.y>0){
+        $draggable.draggabilly('enable');
+        EnableFlag = 1;
+      }
+      if(moveVector.y > 0 && dragFlag === 1 && $("#ypnMenuCont").scrollTop() === 0 ){
+        $draggable.draggabilly('enable');
+        EnableFlag = 1;
+        $("#ypnMenuCont").removeClass("scroll");
+        $("#ypnMenuCont").addClass("noScroll");
+        console.log("4", dragFlag, ", ", EnableFlag);
+      }
+      if(moveVector.y < 0 && dragFlag === 1 && $("#ypnMenuCont").scrollTop() === 0 ){
+        $draggable.draggabilly('disable');
+        $("#ypnMenuCont").addClass("scroll");
+        $("#ypnMenuCont").removeClass("noScroll");
+        console.log("5", dragFlag, ", ", EnableFlag);
+      }
+      console.log("Draggie Pos: ", draggie.position.y, "Pointer Vector: ", moveVector.y);
+    });
+
+    $draggable.on("dragEnd", function(event, pointer) {
+      if (dragFlag === 0 && EnableFlag === 1 && draggie.position.y < LL) {
+        dragFlag = 1;
+        $("#ypnMenuCont").scrollTop(20);
+        $("html").addClass("noScroll");
+        $("body").addClass("noScroll");
+        $draggable.draggabilly('disable');
+        EnableFlag = 0;
+        $("#ypnMenuCont").css("background", "red");
+        $draggable.draggabilly("setPosition", 0, 0);
+        console.log("7", dragFlag, ", ", EnableFlag);
+      }
+      if ( dragFlag === 0 && EnableFlag===1 && draggie.position.y > LL){
+        $draggable.draggabilly("setPosition", 0, $(window).innerHeight() * 0.92);
+        console.log("Set to Bottom", dragFlag, ", ", EnableFlag);
+      }
+      if (dragFlag === 1 && draggie.position.y > UL) {
+        dragFlag = 0;
+        EnableFlag = 1;
+        $("html").addClass("scroll");
+        $("body").addClass("scroll");
+        $(".draggable").css("background", "green");
+        $draggable.draggabilly("setPosition", 0, $(window).innerHeight() * 0.92);
+        console.log("9");
+      }
+      if (dragFlag === 1 && draggie.position.y < UL) {
+        $draggable.draggabilly("setPosition", 0, 0);
+        console.log("10");
+      }
+      console.log("11");
+    });
+    console.log("12");
+  });
+   /*
+  if(moveVector.y > 0){
+    $draggable.draggabilly('enable');
+  }
+  if(moveVector.y < 0){
+    $draggable.draggabilly('disable');
+  }
+  */
+
 
 function updateClock() {
     var currentTime = new Date();

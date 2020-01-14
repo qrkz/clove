@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SO | MWE</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/draggabilly@2.2.0/dist/draggabilly.pkgd.min.js"></script>
+    <style>
+        *{
+            margin: 0; padding: 0;
+            background: #222; color: #ddd;
+        }
+        #bodyMain, #bodyNav{
+            width: auto; height: 500vh;
+            left:0; right: 0;
+        }
+        #bodyMain{
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: space-between;
+            padding-bottom: calc(8vh + 1em);
+        }
+        .scroll{
+            overflow-y: scroll;
+        }
+        .NOscroll{
+            overflow-y: hidden;
+        }
+        #bodyNav{
+            position: fixed;
+            top: 92vh;
+            background: #0b8;       /*  Just to make navContent size visible    */
+        }
+        #navFooter{
+            display: flex;
+            align-items: center; justify-content: center;
+            height: 8vh; flex-direction: row;
+            width: auto;
+            left: 0; right: 0;
+            background: #cf0;
+            color: #222;
+        }
+        #navContent{
+            display: flex;flex-direction: column;
+            align-items: center; justify-content: flex-start;
+            height: 92vh;
+            background: #0fc;
+            color: #222;
+        }
+    </style>
+    <script>
+        $(function(){
+            var draggie = new Draggabilly( '#bodyNav', {axis:'y'} );
+            var menuFlag = 0;
+            var dragFlag = 1;
+            var vpH = Math.round( $(window).innerHeight() );
+            var dragLowerLimit = Math.round( $(window).innerHeight() * 0.8 );        //  Menu opens only if user drags the nav above this Limit...
+            var dragUpperLimit = Math.round( $(window).innerHeight() * 0.2 );        //  Menu closes only if user drags the nav above this Limit...
+            var navClosedPos = Math.round( $(window).innerHeight() - $("#navFooter").outerHeight() );        //  Position of Closed Menu(Navbar) when the page loads...
+
+            draggie.on( 'dragStart', function( event, pointer ) {
+                if(dragFlag === 1){
+                    draggie.enable();
+                }
+                if(dragFlag === 0){
+                    draggie.disable();
+                }
+            });
+
+            draggie.on( 'dragEnd', function( event, pointer ) {
+                if(menuFlag === 0){
+                    if(draggie.position.y < dragLowerLimit){
+                        draggie.setPosition(0,0);
+                        menuFlag=1;
+                        $("body").addClass("NOscroll");
+                        $("html").addClass("NOscroll");
+                    }
+                    if(draggie.position.y > dragLowerLimit){
+                        draggie.setPosition(0,navClosedPos);
+                    }
+                }
+                else if(menuFlag === 1){
+                    if(draggie.position.y < dragUpperLimit){
+                        draggie.setPosition(0,0);
+                    }
+                    if(draggie.position.y > dragUpperLimit){
+                        draggie.setPosition(0,navClosedPos);
+                        menuFlag=0;
+                        $("body").removeClass("NOscroll");
+                        $("html").removeClass("NOscroll");
+                    }
+                }
+            });
+
+            draggie.on( 'pointerMove', function(event, pointer, dragAmount){
+
+            });
+        });
+    </script>
+</head>
+<body>
+    <main id="bodyMain">
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi ipsa ratione, modi totam debitis ut consequuntur nemo voluptate doloremque repellendus quos praesentium rem enim iusto at natus eligendi nostrum maxime.</p>
+        <p>Beatae autem, nostrum velit quas neque sequi totam amet ratione blanditiis accusamus voluptatum dolorum repellendus omnis alias nemo suscipit expedita quidem ullam. Laborum est illo eligendi voluptas ipsam recusandae cum.</p>
+        <p>Repellat exercitationem doloribus molestias aspernatur odio velit et suscipit reprehenderit dolor nulla asperiores excepturi deleniti, nihil, magni provident quae ducimus veniam enim explicabo minus adipisci perferendis. Optio nam eos similique!</p>
+    </main>
+    <nav id="bodyNav">
+        <div id="navFooter">
+            Fixed Navbar
+        </div>
+        <div id="navContent" class="scroll">
+            Nav Menu Content<br/>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi ipsa ratione, modi totam debitis ut consequuntur nemo voluptate doloremque repellendus quos praesentium rem enim iusto at natus eligendi nostrum maxime.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <p>Beatae autem, nostrum velit quas neque sequi totam amet ratione blanditiis accusamus voluptatum dolorum repellendus omnis alias nemo suscipit expedita quidem ullam. Laborum est illo eligendi voluptas ipsam recusandae cum.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <p>Repellat exercitationem doloribus molestias aspernatur odio velit et suscipit reprehenderit dolor nulla asperiores excepturi deleniti, nihil, magni provident quae ducimus veniam enim explicabo minus adipisci perferendis. Optio nam eos similique!</p>
+        </div>
+    </nav>
+</body>
+</html>

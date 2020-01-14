@@ -12,6 +12,10 @@ main{
 .noScroll{
     overflow-y: hidden;
 }
+.scroll{
+    overflow-y: scroll;
+}
+
 nav > #ypnFooter{
     left: 0; right: 0;
     background: #000; color: burlywood;
@@ -79,5 +83,4 @@ nav#ypnMenu > #ypnMenuCont{
     width: auto;
     height: 92vh;
     background: burlywood;
-    overflow-y: scroll;
 }

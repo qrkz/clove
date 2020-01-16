@@ -49,18 +49,27 @@
             background: #0fc;
             color: #222;
         }
+        #navContent > p{
+            background: #0fc;
+            color: #222;
+        }
     </style>
     <script>
         $(function(){
             var draggie = new Draggabilly( '#bodyNav', {axis:'y'} );
             var menuFlag = 0;
             var dragFlag = 1;
+
             var vpH = Math.round( $(window).innerHeight() );
+            var wH = Math.round( $(window).outerHeight() );
+            var vpD = wH - vpH;
+            var footH = Math.round( $("#ypnFooter").outerHeight() );
+
             var dragLowerLimit = Math.round( $(window).innerHeight() * 0.8 );        //  Menu opens only if user drags the nav above this Limit...
             var dragUpperLimit = Math.round( $(window).innerHeight() * 0.2 );        //  Menu closes only if user drags the nav above this Limit...
             var navClosedPos = Math.round( $(window).innerHeight() - $("#navFooter").outerHeight() );        //  Position of Closed Menu(Navbar) when the page loads...
 
-            draggie.on( 'dragStart', function( event, pointer ) {
+            draggie.on( 'dragMove', function( event, pointer ) {
                 if(dragFlag === 1){
                     draggie.enable();
                 }
@@ -70,18 +79,19 @@
             });
 
             draggie.on( 'dragEnd', function( event, pointer ) {
-                if(menuFlag === 0){
+                if(menuFlag === 0 && dragFlag === 1){
                     if(draggie.position.y < dragLowerLimit){
                         draggie.setPosition(0,0);
                         menuFlag=1;
                         $("body").addClass("NOscroll");
                         $("html").addClass("NOscroll");
+                        dragFlag=0;
                     }
                     if(draggie.position.y > dragLowerLimit){
                         draggie.setPosition(0,navClosedPos);
                     }
                 }
-                else if(menuFlag === 1){
+                else if(menuFlag === 1 && dragFlag === 1){
                     if(draggie.position.y < dragUpperLimit){
                         draggie.setPosition(0,0);
                     }
@@ -93,9 +103,41 @@
                     }
                 }
             });
-
             draggie.on( 'pointerMove', function(event, pointer, dragAmount){
+                if(dragFlag === 0){
+                    if( $("#navContent").scrollTop() === 0 ){
+                        $("#navContent").addClass("NOscroll");
+                        $("#navContent").removeClass("scroll");
+                        if(dragAmount.y > 0){
+                            dragFlag=1;
+                        }
+                    }
+                    if( $("#navContent").scrollTop() > 0 ){
+                        $("#navContent").addClass("scroll");
+                        $("#navContent").removeClass("NOscroll");
+                        if(dragAmount.y < 0){
+                            dragFlag=0;
+                        }
+                    }
+                }
+                if(dragFlag === 1){
+                    if( $("#navContent").scrollTop() === 0 ){
+                        console.log("dragAmount: "+dragAmount.y);
+                        if(dragAmount.y > 0){
+                            dragFlag=0;
+                        }
+                        if(dragAmount.y < 0){
+                            dragFlag=1;
+                        }
+                    }
+                }
+            });
 
+            $(document).on('keydown', function ( e ) {
+                // You may replace `c` with whatever key you want
+                if ((e.metaKey || e.ctrlKey) && ( String.fromCharCode(e.which).toLowerCase() === 'q') ) {
+                    console.log("dragFlag:",dragFlag," | menuFlag:", menuFlag," | dragPos",draggie.position.y);
+                }
             });
         });
     </script>
@@ -110,10 +152,10 @@
         <div id="navFooter">
             Fixed Navbar
         </div>
-        <div id="navContent" class="scroll">
+        <div id="navContent" class="scroll"  touch-action="none">
             Nav Menu Content<br/>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi ipsa ratione, modi totam debitis ut consequuntur nemo voluptate doloremque repellendus quos praesentium rem enim iusto at natus eligendi nostrum maxime.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-            <p>Beatae autem, nostrum velit quas neque sequi totam amet ratione blanditiis accusamus voluptatum dolorum repellendus omnis alias nemo suscipit expedita quidem ullam. Laborum est illo eligendi voluptas ipsam recusandae cum.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi ipsa ratione, modi totam debitis ut consequuntur nemo voluptate doloremque repellendus quos praesentium rem enim iusto at natus eligendi nostrum maxime.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <p>Beatae autem, nostrum velit quas neque sequi totam amet ratione blanditiis accusamus voluptatum dolorum repellendus omnis alias nemo suscipit expedita quidem ullam. Laborum est illo eligendi voluptas ipsam recusandae cum.</p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <p>Repellat exercitationem doloribus molestias aspernatur odio velit et suscipit reprehenderit dolor nulla asperiores excepturi deleniti, nihil, magni provident quae ducimus veniam enim explicabo minus adipisci perferendis. Optio nam eos similique!</p>
         </div>
     </nav>
